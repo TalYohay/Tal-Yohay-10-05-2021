@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <div class="small-container" *ngIf="favorites.length > 0">
+
+        <div *ngIf="weatherService.metric == true">
+            <button type="button" class="btn btn-primary ml-5" style="width:100px" (click)="toggleTemp()">Celcius</button>
+        </div>
+        <div *ngIf="weatherService.metric == false">
+            <button type="button" class="btn btn-primary ml-5" style="width:100px" (click)="toggleTemp()">Fahrenheit</button>
+        </div>
+
+        <div class="row mt-5">
+            <div class="card" style="width: 18rem;" *ngFor="let favorite of favorites; let i = index">
+                <div class="card-body" style="text-align: center;">
+                    <h5 class="card-title ">{{favorite.name.LocalizedName}}</h5>
+                    <p class="card-text weatherText">{{favorite.name.Country.LocalizedName}}</p>
+
+                    <p class="card-text weatherText ">{{favorite.local.WeatherText}}</p>
+                    <div *ngIf="weatherService.metric == true">
+                        <p class="card-text highTemp ">{{favorite.local.Temperature.Metric.Value}}°</p>
+                    </div>
+                    <div *ngIf="weatherService.metric == false">
+                        <p class="card-text highTemp">{{favorite.local.Temperature.Imperial.Value}}°</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="small-container" *ngIf="favorites.length == 0">
+        <h1>Favorites list is empty!</h1>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+.small-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    position: absolute;
+    right: 50%;
+    left: 50%
+}
+
+.weatherText {
+    font-size: 18px;
+}
+
+.highTemp {
+    font-size: 25px
+}
+
+.row {
+    gap: 15px;
+}
+
+.card {
+    transition: transform 0.5s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+@media only screen and (max-width: 767px) {
+    .container {
+        margin-bottom: 50%;
+    }
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+    input.form-control {
+        width: 60%;
+    }
+    .form-inline {
+        justify-content: space-evenly;
+    }
+    .ml-5 {
+        margin-left: 0 !important
+    }
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-width: 800px) {
+    .container {
+        margin-bottom: 50%;
+    }
+    .row {
+        justify-content: center;
+    }
+    @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+        .container {
+            margin-bottom: 800px !important;
+        }
+    }
+}

@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="small-container">
+        <form class="form-inline mt-5">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="getCity">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" (click)="getLocation()">Search</button>
+            <div *ngIf="weatherService.metric == true">
+                <button type="button" class="btn btn-primary ml-5" style="width:100px" (click)="toggleTemp()">Celcius</button>
+            </div>
+            <div *ngIf="weatherService.metric == false">
+                <button type="button" class="btn btn-primary ml-5" style="width:100px" (click)="toggleTemp();">Fahrenheit</button>
+            </div>
+        </form>
+
+    </div>
+    <div class="small-container">
+
+        <div class="row mt-5" *ngIf="citySearch.length >0">
+            <div class="card" data-aos="fade-up" data-aos-duration="3000" style="width: 18rem;" *ngFor="let city of citySearch; let i = index;">
+                <div class="card-body" style="text-align: center;">
+                    <h5 class="card-title ">{{city.LocalizedName}}</h5>
+                    <p class="card-text weatherText">{{city.Country.LocalizedName}}</p>
+                    <div *ngFor="let local of cityLocal ">
+
+                        <p class="card-text weatherText">{{local.WeatherText}}</p>
+                        <div *ngIf="weatherService.metric==true">
+                            <p class="card-text highTemp ">{{local.Temperature.Metric.Value | number: '1.0-0'}}°</p>
+                        </div>
+                        <div *ngIf="weatherService.metric==false">
+                            <p class="card-text highTemp ">{{local.Temperature.Imperial.Value | number: '1.0-0'}}°</p>
+                        </div>
+                        <div *ngIf="!isLikedCity(city.Key)">
+                            <i class="far fa-heart" (click)="addToFav(city, local);setLikedCity(i);openModal()"></i>
+                        </div>
+                        <div *ngIf="isLikedCity(city.Key)">
+                            <i class="fas fa-heart" (click)="addToFav(city, local);openModal()"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- forecast -->
+    <div class="forecast-container mt-3" *ngIf=" citySearch.length > 0">
+        <h1 style="text-align: center;" data-aos="fade-up">Forecast</h1>
+        <div class="small-container ">
+            <div class="row mt-3" data-aos="fade-up" data-aos-duration="3000">
+                <div *ngFor="let forecast of Forecast.DailyForecasts; let i =index;">
+                    <div class="card " style="width: 13rem; ">
+                        <div class="card-body" style="text-align: center;">
+                            <h5 class=" card-title ">{{forecast.Date | date}} </h5>
+                            <p class="card-text"><strong>Day:</strong> {{forecast.Day.IconPhrase}}</p>
+                            <p class="card-text "><strong>Strong:</strong> {{forecast.Night.IconPhrase}}</p>
+
+                            <p class="card-text highTemp">{{forecast.Temperature.Maximum.Value | number: '1.0-0'}}°
+                                <span class="lowTemp">/ {{forecast.Temperature.Minimum.Value | number: '1.0-0'}}°</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="citySearch.length == 0">
+    <div class="forecast-container mt-3">
+        <h1 style="text-align: center">No city found!</h1>
+
+    </div>
+</div>
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal ">
+
+    <!-- Modal content -->
+    <div class="modal-content ">
+        <div class="modal-header ">
+            <span (click)="closeModal()" class="close ">&times;</span>
+        </div>
+        <div class="modal-body ">
+            <div style="overflow-x:auto; ">
+                <p *ngIf="addMsg">{{addMsg}}</p>
+                <p *ngIf="removeMsg">{{removeMsg}}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
